@@ -1,0 +1,22 @@
+{
+  "name": "sign",
+  "version": "1.0.0",
+  "description": "Tool for signing messages using the ethereum keystore and verifying those signatures",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cp2017/sign.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cp2017/sign/issues"
+  },
+  "homepage": "https://github.com/cp2017/sign#readme",
+  "dependencies": {
+    "keythereum": "^0.3.2"
+  }
+}
