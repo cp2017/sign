@@ -1,13 +1,13 @@
-var keythereum = require("keythereum");
+//var keythereum = require("keythereum");
 var sha256 = require("crypto-js/hmac-sha256");
 
 //Config variables (to be passed to the constructor)
-var address = ""; //ethereum account address to use, defaults to defaultaccount if string is empty
+//var address = ""; //ethereum account address to use, defaults to defaultaccount if string is empty
 // address = "4922f48cb953e4193fdf9720900ea7d0f37f7e71"; //Steffens key for local testing
-var datadir = ""; //optional, defaults to "/home/currentUser/.ethereum"
-var password = "pw0"; //password for unlocking the account
-var message = "This is my message.";
-
+//var datadir = ""; //optional, defaults to "/home/currentUser/.ethereum"
+//var password = "pw0"; //password for unlocking the account
+//var message = "This is my message.";
+/*
 function SignService(ethAddress, ethPassword, ethDataDirectory){
     this.ethereumAddress = ethAddress;
     this.ethereumPassword = ethPassword;
@@ -28,10 +28,15 @@ SignService.prototype.importEthereumPrivateKey = function(){
         return false; 
     }
 }
-
+*/
 //export object for later use outside
-module.exports = SignService;
-
-//just local for testing the implementation
-var service = new SignService(address, password, datadir);
-service.importEthereumPrivateKey();
+module.exports = {
+	sign:function(message, publicKey)
+	{
+		return sha256(message,publicKey);
+	},
+	verify(message, publicKey, hash)
+	{
+		return hash===sha256(message,publicKey);
+	}
+};
