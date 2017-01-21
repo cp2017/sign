@@ -1,10 +1,12 @@
 var keythereum = require("keythereum");
+var sha256 = require("crypto-js/hmac-sha256");
 
 //Config variables (to be passed to the constructor)
 var address = ""; //ethereum account address to use, defaults to defaultaccount if string is empty
 // address = "4922f48cb953e4193fdf9720900ea7d0f37f7e71"; //Steffens key for local testing
 var datadir = ""; //optional, defaults to "/home/currentUser/.ethereum"
 var password = "pw0"; //password for unlocking the account
+var message = "This is my message.";
 
 function SignService(ethAddress, ethPassword, ethDataDirectory){
     this.ethereumAddress = ethAddress;
@@ -18,11 +20,12 @@ SignService.prototype.importEthereumPrivateKey = function(){
         console.log("imported key for address: " + keyObject.address); 
         var privateKey = keythereum.recover(this.ethereumPassword, keyObject);
         console.log("private key fetched successfully");
+        console.log("Hash of message '" + message + "': " + sha256(message, privateKey.toString())); // TODO: get the public key somehow and use it instead of the private key!
         return true;
     }
     catch(err){
-        console.error("failed fetching the private key: " + err.message);
-        return false;
+        console.error("Something went wrong: " + err.message);
+        return false; 
     }
 }
 

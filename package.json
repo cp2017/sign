@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/cp2017/sign#readme",
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "keythereum": "^0.3.2"
   }
 }
