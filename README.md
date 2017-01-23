@@ -5,12 +5,12 @@ A small module providing signing and verification of messages for the Cloud Prot
 
 ## Installation
 ```shell
-npm install cp2017sign --save
+npm install cp2017sign
 ```
 
 ## Usage
 ```javascript
-var cp2017sign=require('cp2017sign');
+var cp2017sign = require('cp2017sign');
 
 //get the private key of your ethereum account
 var privateKey = cp2017sign.getPrivateKey(ethereumAddress, ethereumDataDir, ethereumAccountPassword);
