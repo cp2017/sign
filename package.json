@@ -1,6 +1,6 @@
 {
   "name": "cp2017sign",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Tool for signing messages using the ethereum keystore and verifying those signatures",
   "main": "index.js",
   "scripts": {
@@ -11,11 +11,11 @@
     "type": "git",
     "url": "git+https://github.com/cp2017/sign.git"
   },
-  "author": "",
+  "author": "Steffen Haertlein and Nikola Stavrevski",
   "license": 
     {
       "type": "MIT",
-      "url": "https://github.com/cp2017/sign/blob/module/LICENCE-MIT"
+      "url": "https://github.com/cp2017/sign/blob/master/LICENCE-MIT"
     }
   ,
   "bugs": {
