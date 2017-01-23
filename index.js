@@ -18,6 +18,11 @@ module.exports = {
             throw err;
         }
     },
+    /**
+     * get public key for a given ethereum private key
+     * @param  {Buffer} privateKey ethereum private key
+     * @return {Buffer}            the associated public key
+     */
     getPublicKey: function(privateKey){
         try {
             return ethUtils.privateToPublic(privateKey);
