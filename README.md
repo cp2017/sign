@@ -28,3 +28,4 @@ console.log("Verification result: " + result);
 ## Release History
 
 * 0.1.0 Initial release
+* 1.0.0 Include signature and verification of public and private Ethereum keys
