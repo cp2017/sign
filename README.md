@@ -3,7 +3,7 @@ Signing Module
 
 A small module providing signing and verification of messages for the Cloud Prototyping Microservices Marketplace
 
-## Instalation
+## Installation
 ```shell
 npm install cp2017sign --save
 ```
@@ -24,6 +24,21 @@ var publicKey = cp2017sign.getPublicKey(privateKey);
 //verify signature of the message
 var result = cp2017sign.verify("Test message", signedMessage.v, signedMessage.r, signedMessage.s, publicKey);
 console.log("Verification result: " + result);
+```
+
+Every function has an optional callback parameter for asynchronous use.
+The first parameter is always an error object (or null, if there was no error) and the second parameter is the actual method result (or null, if there was an error).
+
+Example:
+
+```javascript
+cp2017sign.sign(yourMessage, privateKey, function(error, result){
+  if(error){
+    //handle the error
+  } else {
+    //handle the result
+  }
+})
 ```
 ## Release History
 
