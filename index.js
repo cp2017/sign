@@ -1,5 +1,5 @@
-var keythereum = require("keythereum");
-var ethUtils = require("ethereumjs-util");
+var keythereum = require('keythereum')
+var ethUtils = require('ethereumjs-util')
 
 module.exports = {
     /**
@@ -9,13 +9,24 @@ module.exports = {
      * @param  {String} ethereumAccountPassword password of the specified ethereum account
      * @return {Buffer}                         Private key of the specified ethereum account
      */
-    getPrivateKey: function(ethereumAddress, ethereumDataDir, ethereumAccountPassword){
-        try {
-            var keyObject = keythereum.importFromFile(ethereumAddress, ethereumDataDir);
-            return keythereum.recover(ethereumAccountPassword, keyObject);
-        }
-        catch (err){
-            throw err;
+    getPrivateKey: function(ethereumAddress, ethereumDataDir, ethereumAccountPassword, cb){
+        if(typeof cb === 'function'){
+            try {
+                keythereum.importFromFile(ethereumAddress, ethereumDataDir, function(keyObject){
+                    keythereum.recover(ethereumAccountPassword, keyObject, function(privateKey){
+                        return cb(null, privateKey)
+                    })
+                })
+            } catch (err){
+                return cb(err)
+            }
+        } else {
+            try {
+                var keyObject = keythereum.importFromFile(ethereumAddress, ethereumDataDir)
+                return keythereum.recover(ethereumAccountPassword, keyObject)
+            } catch (err){
+                throw err
+            }
         }
     },
     /**
@@ -23,12 +34,21 @@ module.exports = {
      * @param  {Buffer} privateKey ethereum private key
      * @return {Buffer}            the associated public key
      */
-    getPublicKey: function(privateKey){
-        try {
-            return ethUtils.privateToPublic(privateKey);
-        }
-        catch(err){
-            throw err;
+    getPublicKey: function(privateKey, cb){
+        if(typeof cb === 'function'){
+            try {
+                cb(null, ethUtils.privateToPublic(privateKey))
+            }
+            catch(err){
+                cb(err)
+            }
+        } else {
+            try {
+                return ethUtils.privateToPublic(privateKey)
+            }
+            catch(err){
+                return err
+            }
         }
     },
     /**
@@ -37,14 +57,21 @@ module.exports = {
      * @param  {Buffer} privateKey The ethereum private key used to sign the message
      * @return {Object}            Signature object with the keys v(Buffer), r(Buffer) and s(Number) inside
      */
-	sign:function(message, privateKey)
+	sign:function(message, privateKey, cb)
 	{
-        try {
-    		var hashedMessage = ethUtils.sha3(message);
-            return ethUtils.ecsign(hashedMessage, privateKey);
+        if(typeof cb === 'function'){
+            try {
+                return cb(null, ethUtils.ecsign(ethUtils.sha3(message), privateKey))
+            } catch (err){
+                return cb(err)
+            }
         }
-        catch(err){
-            throw err;
+        else {
+            try {
+                return ethUtils.ecsign(ethUtils.sha3(message), privateKey)
+            } catch(err){
+                return err
+            }
         }
 	},
     /**
@@ -56,13 +83,21 @@ module.exports = {
      * @param  {Buffer} publicKey public key of the message sender
      * @return {Boolean}          true, if public keys match, otherwise false.
      */
-	verify: function(message, v, r, s, publicKey)
+	verify: function(message, v, r, s, publicKey, cb)
 	{
-        try {
-		  return publicKey.toString("hex") === ethUtils.ecrecover(ethUtils.sha3(message), v, r, s).toString("hex");
-        }
-        catch (err){
-            throw err;
+        if(typeof cb === 'function'){
+            try {
+                return cb(null, publicKey.toString('hex') === ethUtils.ecrecover(ethUtils.sha3(message), v, r, s).toString('hex'))
+            } catch (err){
+                return cb(err)
+            }
+        } else {
+            try {
+    		  return publicKey.toString('hex') === ethUtils.ecrecover(ethUtils.sha3(message), v, r, s).toString('hex')
+            }
+            catch (err){
+                return err
+            }
         }
 	}
 };
