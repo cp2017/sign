@@ -1,7 +1,7 @@
 Signing Module
 ==============
 
-A small module providing signing and verification of messages for the CLoud Prototyping Microservices Marketplace
+A small module providing signing and verification of messages for the Cloud Prototyping Microservices Marketplace
 
 ## Instalation
 ```shell
@@ -9,7 +9,7 @@ npm install cp2017sign --save
 ```
 
 ## Usage
-```shell
+```javascript
 var cp2017sign=require('cp2017sign');
 
 //get the private key of your ethereum account
