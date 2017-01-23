@@ -1,6 +1,6 @@
 {
-  "name": "sign",
-  "version": "1.0.0",
+  "name": "cp2017sign",
+  "version": "0.1.0",
   "description": "Tool for signing messages using the ethereum keystore and verifying those signatures",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,12 @@
     "url": "git+https://github.com/cp2017/sign.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": 
+    {
+      "type": "MIT",
+      "url": "https://github.com/cp2017/sign/blob/module/LICENCE-MIT"
+    }
+  ,
   "bugs": {
     "url": "https://github.com/cp2017/sign/issues"
   },
