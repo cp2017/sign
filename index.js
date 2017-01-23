@@ -25,7 +25,7 @@ module.exports = {
                 var keyObject = keythereum.importFromFile(ethereumAddress, ethereumDataDir)
                 return keythereum.recover(ethereumAccountPassword, keyObject)
             } catch (err){
-                throw err
+                return err
             }
         }
     },
@@ -37,10 +37,10 @@ module.exports = {
     getPublicKey: function(privateKey, cb){
         if(typeof cb === 'function'){
             try {
-                cb(null, ethUtils.privateToPublic(privateKey))
+                return cb(null, ethUtils.privateToPublic(privateKey))
             }
             catch(err){
-                cb(err)
+                return cb(err)
             }
         } else {
             try {
