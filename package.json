@@ -1,6 +1,6 @@
 {
   "name": "cp2017sign",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tool for signing messages using the ethereum keystore and verifying those signatures",
   "main": "index.js",
   "scripts": {
