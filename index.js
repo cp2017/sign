@@ -77,9 +77,9 @@ module.exports = {
     /**
      * verify signature of the message by recovering the public key, comparing it to the provided one
      * @param  {String} message   message that was signed
-     * @param  {Buffer} v         Signature parameter
+     * @param  {Number} v         Signature parameter
      * @param  {Buffer} r         Signature parameter
-     * @param  {Number} s         Signature parameter
+     * @param  {Buffer} s         Signature parameter
      * @param  {Buffer} publicKey public key of the message sender
      * @return {Boolean}          true, if public keys match, otherwise false.
      */
