@@ -46,3 +46,4 @@ cp2017sign.sign(yourMessage, privateKey, function(error, result){
 * 1.0.0 Include signature and verification of public and private Ethereum keys
 * 1.0.1 Update readme
 * 1.0.2 Update readme
+* 1.0.3 Fixed wrong parameter types in the verify function
