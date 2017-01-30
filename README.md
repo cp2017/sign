@@ -21,8 +21,14 @@ var signedMessage = cp2017sign.sign("Test message", privateKey)
 //get public key (just for comparison in this example)
 var publicKey = cp2017sign.getPublicKey(privateKey)
 
-//verify signature of the message
+/* verify signature of the message (deprecated since version 1.1.0)
 var result = cp2017sign.verify("Test message", signedMessage.v, signedMessage.r, signedMessage.s, publicKey)
+*/
+
+//new since version 1.1.0: easier verification by just handing over one signature object
+signedMessage.publicKey = publicKey
+result = cp2017sign.verifySignature("Test message", signedMessage)
+
 console.log("Verification result: " + result)
 ```
 
