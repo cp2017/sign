@@ -211,10 +211,3 @@ module.exports = {
         }
     }
 }
-
-var cp2017sign = module.exports
-var privateKey = cp2017sign.getPrivateKey('','','Steff725974!')
-var signature = cp2017sign.sign("abc", privateKey)
-signature.publicKey = cp2017sign.getPublicKey(privateKey)
-var result = cp2017sign.verifySignature("ac", signature);
-console.log(result);
