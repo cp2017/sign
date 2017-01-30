@@ -26,7 +26,7 @@ module.exports = {
      * @param  {String} ethereumAccountPassword password of the specified ethereum account
      * @return {Buffer}                         Private key of the specified ethereum account
      */
-    getPrivateKey: function(ethereumAddress, ethereumDataDir, ethereumAccountPassword, cb){
+    getPrivateKey: function(ethereumAddress, ethereumDataDir, ethereumAccountPassword, cb = null){
         if(isFunction(cb)){
             try {
                 keythereum.importFromFile(ethereumAddress, ethereumDataDir, function(keyObject){
@@ -51,7 +51,7 @@ module.exports = {
      * @param  {Buffer} privateKey ethereum private key
      * @return {Buffer}            the associated public key
      */
-    getPublicKey: function(privateKey, cb){
+    getPublicKey: function(privateKey, cb = null){
         if(isFunction(cb)){
             try {
                 return cb(null, ethUtils.privateToPublic(privateKey))
@@ -74,7 +74,7 @@ module.exports = {
      * @param  {Buffer} privateKey The ethereum private key used to sign the message
      * @return {Object}            Signature object with the keys v(Buffer), r(Buffer) and s(Number) inside
      */
-	sign:function(message, privateKey, cb)
+	sign:function(message, privateKey, cb = null)
 	{
         if(isFunction(cb)){
             try {
@@ -100,23 +100,32 @@ module.exports = {
      * @param  {Buffer} publicKey public key of the message sender
      * @return {Boolean}          true, if public keys match, otherwise false.
      */
-	verify: function(message, v, r, s, publicKey, cb)
+	verify: function(message, v, r, s, publicKey, cb = null)
 	{
+        var result = false
+        try {
+            if(ethUtils.isValidSignature(v,r,s) && ethUtils.isValidPublic(publicKey) && publicKey.toString('hex') === ethUtils.ecrecover(ethUtils.sha3(message), v, r, s).toString('hex')){
+                result = true
+            }
+        } catch(err){
+            result = false
+        }
         if(isFunction(cb)){
-            try {
-                return cb(null, publicKey.toString('hex') === ethUtils.ecrecover(ethUtils.sha3(message), v, r, s).toString('hex'))
-            } catch (err){
-                return cb(err)
-            }
+            return cb(null, result)
         } else {
-            try {
-    		  return publicKey.toString('hex') === ethUtils.ecrecover(ethUtils.sha3(message), v, r, s).toString('hex')
-            }
-            catch (err){
-                return err
-            }
+            return result
         }
 	},
+    /**
+     * verify signature easier handing over the complete signature object containing v, r, s and the public key in one object
+     * @param  {String}   message         message to verify
+     * @param  {Object}   signatureObject Signature object. must contain v (Number), r, s, publicKey (all buffers)
+     * @param  {Function} cb              callback function (optional)
+     * @return {boolean}                  true, if signature and public key are valid, otherwise false
+     */
+    verifySignature: function(message, signatureObject, cb = null){
+        return module.exports.verify(message, signatureObject.v, signatureObject.r, signatureObject.s, signatureObject.publicKey, cb)
+    },
     /**
      * check all elements in the given object (depth 1) for buffers, and if so,
      * replace the entry by an encoded string. If the encoding is invalid or empty,
@@ -126,7 +135,7 @@ module.exports = {
      * @param  {Function} cb       (optional) callback function
      * @return {Object}            new object where all buffers of the input object are converted to strings using the provided encoding
      */
-    convertBuffersToStrings: function(object, encoding, cb) {
+    convertBuffersToStrings: function(object, encoding, cb = null) {
         var convertedObj = {}
         encoding = getEncodingOrDefault(encoding)
         for(var key in object){
@@ -150,7 +159,7 @@ module.exports = {
      * @param  {Function} cb              (optional) callback function
      * @return {String}                   Base64-encoded String representation of the input
      */
-    signatureToBase64String: function(signatureObject, publicKey, bufferEncoding, cb){
+    signatureToBase64String: function(signatureObject, publicKey, bufferEncoding = DEFAULT_ENCODING, cb = null){
         var clonedSignatureObj = {
             v: signatureObject.v,
             r: signatureObject.r,
@@ -176,7 +185,7 @@ module.exports = {
      * @param  {Function} cb             callback function
      * @return {Object}                  Signature object recovered from the input string, or Error object if an error occured
      */
-    signatureFromBase64String: function(base64String, bufferEncoding, cb){
+    signatureFromBase64String: function(base64String, bufferEncoding = DEFAULT_ENCODING, cb = null){
         bufferEncoding = getEncodingOrDefault(bufferEncoding)
         var decodedObj = JSON.parse(Buffer.from(base64String, 'base64').toString())
         var result = {}
@@ -202,3 +211,10 @@ module.exports = {
         }
     }
 }
+
+var cp2017sign = module.exports
+var privateKey = cp2017sign.getPrivateKey('','','Steff725974!')
+var signature = cp2017sign.sign("abc", privateKey)
+signature.publicKey = cp2017sign.getPublicKey(privateKey)
+var result = cp2017sign.verifySignature("ac", signature);
+console.log(result);
