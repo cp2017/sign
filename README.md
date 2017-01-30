@@ -78,3 +78,4 @@ The 'bufferEncoding' and 'callback' parameter are optional as in the encoding fu
 * 1.0.1 Update readme
 * 1.0.2 Update readme
 * 1.0.3 Fixed wrong parameter types in the verify function
+* 1.1.0 Fixed verify method, added utility functions
