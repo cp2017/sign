@@ -31,9 +31,18 @@ var toEthUtilsSignature = function(signature){
 var fromEthUtilsSignature = function(ethUtilsSignature){
     var signature = {
         signature: Buffer.concat([ethUtils.setLength(ethUtilsSignature.r, 32), ethUtils.setLength(ethUtilsSignature.s, 32)], 64),
-        recovery: v - 27
+        recovery: ethUtilsSignature.v - 27
     }
     return signature
+}
+
+var getSecp256k1PublicKey = function(publicKey){
+    if (publicKey.length === 64) {
+        return Buffer.concat([Buffer.from([4]), Buffer.from(publicKey)])
+    }
+    else {
+        return publicKey
+    }
 }
 
 /**
@@ -151,8 +160,10 @@ module.exports = {
         try {
             var isSigValid = ethUtils.isValidSignature(ethSig.v, ethSig.r, ethSig.s)
             var isPubKeyValid = ethUtils.isValidPublic(signatureObject.publicKey)
-            var isSigVerified = secp256k1.verify(ethUtils.sha3(message), signatureObject, signatureObject.publicKey)
-            if(isSigValid === true && isPubKeyValid === true && isSigVerified === true){
+            //convert public key to secp256k1 format
+            signatureObject.publicKey = getSecp256k1PublicKey(signatureObject.publicKey)
+            var isSigVerified = secp256k1.verify(ethUtils.sha3(message), signatureObject.signature, signatureObject.publicKey)
+            if(isSigVerified){
                 result = true
             }
         }   catch(err){
