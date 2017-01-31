@@ -12,18 +12,17 @@
     "url": "git+https://github.com/cp2017/sign.git"
   },
   "author": "Steffen Haertlein and Nikola Stavrevski",
-  "license": 
-    {
-      "type": "MIT",
-      "url": "https://github.com/cp2017/sign/blob/master/LICENCE-MIT"
-    }
-  ,
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/cp2017/sign/blob/master/LICENCE-MIT"
+  },
   "bugs": {
     "url": "https://github.com/cp2017/sign/issues"
   },
   "homepage": "https://github.com/cp2017/sign#readme",
   "dependencies": {
     "ethereumjs-util": "^5.0.1",
-    "keythereum": "^0.3.2"
+    "keythereum": "^0.3.2",
+    "secp256k1": "^3.2.5"
   }
 }
